@@ -14,7 +14,6 @@ module.exports = function(app) {
   
   app.get('/get/classes', function(req, res) {
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, client) {
-      assert.strictEqual(null, err)
       const db = client.db(dbName)
       db.collection('classes').find().toArray(function(err, docs) {
         assert.strictEqual(null, err)
@@ -25,7 +24,6 @@ module.exports = function(app) {
 
   app.get('/get/instructors', function(req, res) {
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, client) {
-      assert.strictEqual(null, err)
       const db = client.db(dbName)
       db.collection('instructors').find().toArray(function(err, docs) {
         assert.strictEqual(null, err)
@@ -36,7 +34,6 @@ module.exports = function(app) {
 
   app.get('/get/students', function(req, res) {
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, client) {
-      assert.strictEqual(null, err)
       const db = client.db(dbName)
       db.collection('students').find().toArray(function(err, docs) {
         assert.strictEqual(null, err)
