@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient
 const express = require('express')
 const app = express()
 const Router = express.Router()
+const { v4: uuidv4 } = require('uuid')
 const url = 'mongodb://localhost:27017'
 const dbName = 'class_registration'
 const assert = require('assert')
@@ -71,14 +72,14 @@ module.exports = function(app) {
   app.post('/api/instructors', function(req, res) {
     MongoClient.connect(url, { useUnifiedTopology: true }, async function(err, client) {
       assert.strictEqual(null, err)
-      console.log(`Connected to DB ${dbName} successfully`)
       const db = client.db(dbName)
       let instructor = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        instructor_id: req.body.instructor_id,
+        instructor_id: uuidv4(),
         email: req.body.email,
-        phone: req.body.phone
+        phone: req.body.phone,
+        specialty: req.body.specialty
       }
       await db.collection('instructors').insertOne(instructor, function(err, res) {
         if(err) throw (err)
@@ -91,15 +92,15 @@ module.exports = function(app) {
   app.post('/api/students', function(req, res) {
     MongoClient.connect(url, { useUnifiedTopology: true }, async function(err, client) {
       assert.strictEqual(null, err)
-      console.log(`Connected to DB ${dbName} successfully`)
       const db = client.db(dbName)
       let student = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        student_id: req.body.student_id,
+        student_id: uuidv4(),
         email: req.body.email,
         gpa: req.body.gpa,
-        classes_taken: req.body.classes_taken
+        classes_taken: req.body.classes_taken,
+        major: req.body.major
       }
       await db.collection('students').insertOne(student, function(err, res) {
         if(err) throw (err)
